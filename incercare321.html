@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calcularea mediei</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .input-field {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h2>Formular 1</h2>
+     <div id="containerunu">
+      <label>deviereAngularaImpusa</label>
+      <input type="number" id="deviereAngularaImpusa" >
+    </div>
+    <div id="container1">
+      <label>Probe 1</label>
+      <input type="number" class="input-field">
+      <canvas id="chart1"></canvas>
+    </div>
+
+    <button onclick="addInputField(1)">+</button>
+    <button onclick="calculateAverage(1)">Calculează medie</button>
+    <button type="button" onclick="generateChart(1)">grafic</button>
+    <p id="result1"></p>
+  </div>
+
+  <div>
+    <h2>Formular 2</h2>
+    <div id="containerdoi">
+      <label>inclinatieArboreImpusa</label>
+      <input type="number" id="inclinatieArboreImpusa" >
+    </div>
+    <div id="container2">
+      <label>Probe 2</label>
+      <input type="number" class="input-field">
+    </div>
+    <button onclick="addInputField(2)">+</button>
+    <button onclick="calculateAverage(2)">Calculează medie</button>
+    <p id="result2"></p>
+  </div>
+
+  <div>
+    <h2>Formular 3</h2>
+    <div id="containertrei">
+      <label>deviereAxialaImpusa</label>
+      <input type="number" id="deviereAxialaImpusa" >
+    </div>
+    <div id="container3">
+      <label>Probe 3</label>
+      <input type="number" class="input-field">
+    </div>
+    <button onclick="addInputField(3)">+</button>
+    <button onclick="calculateAverage(3)">Calculează medie</button>
+    <p id="result3"></p>
+  </div>
+
+  <div>
+    <h2>Formular 4</h2>
+    <div id="containerpatru">
+      <label>descrestereLateralaImpusa</label>
+      <input type="number" id="descrestereLateralaImpusa" >
+    </div>
+    <div id="container4">
+      <label>Probe 4</label>
+      <input type="number" class="input-field">
+    </div>
+    <button onclick="addInputField(4)">+</button>
+    <button onclick="calculateAverage(4)">Calculează medie</button>
+
+    <p id="result4"></p>
+  </div>
+
+  <script>
+    // Variabile pentru a păstra referințele la containerele de câmpuri și rezultate
+    const containers = {
+      1: document.getElementById("container1"),
+      2: document.getElementById("container2"),
+      3: document.getElementById("container3"),
+      4: document.getElementById("container4")
+    };
+    const resultElements = {
+      1: document.getElementById("result1"),
+      2: document.getElementById("result2"),
+      3: document.getElementById("result3"),
+      4: document.getElementById("result4")
+    };
+
+    // Funcție pentru a adăuga un nou câmp de completare într-un formular specificat
+    function addInputField(formNumber) {
+      const inputField = document.createElement("input");
+      inputField.type = "number";
+      inputField.classList.add("input-field");
+      containers[formNumber].appendChild(inputField);
+    }
+
+    // Funcție pentru a calcula media valorilor introduse într-un formular specificat
+    function calculateAverage(formNumber) {
+      const inputFields = containers[formNumber].getElementsByClassName("input-field");
+
+      // Obținerea valorilor din câmpurile de completare
+      const values = [];
+      for (let i = 0; i < inputFields.length; i++) {
+        const value = parseFloat(inputFields[i].value);
+        values.push(value);
+      }
+
+      // Calcularea mediei
+      const sum = values.reduce((acc, val) => acc + val, 0);
+      const average = sum / values.length;
+
+      // Afișarea rezultatului
+      resultElements[formNumber].textContent = `Media este: ${average.toFixed(2)}`;
+    }
+            var labels = ["Deviere Angulara"];
+            var valoriImpuse = [parseFloat(document.getElementById("deviereAngularaImpusa").value),
+            ];
+            var valoriMasurateMedii = ["average"];
+    
+function generateChart(formNumber, labels, valoriImpuse, valoriMasurateMedii) {
+  // Obținerea valorilor din câmpurile de intrare
+  var valoareImpusa = parseFloat(document.getElementById(`valoareImpusa${formNumber}`).value);
+  var valoriMasurate = [];
+  var inputFields = containers[formNumber].getElementsByClassName("input-field");
+
+  for (let i = 0; i < inputFields.length; i++) {
+    valoriMasurate.push(parseFloat(inputFields[i].value));
+  }
+
+  // Actualizarea valorilor pentru grafic
+  labels = ["Deviere Angulara"];
+  valoriImpuse = [valoareImpusa];
+  valoriMasurateMedii = [calculateAverage(valoriMasurate).toFixed(2)];
+
+  var ctx = document.getElementById(`chart${formNumber}`).getContext("2d");
+  var chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Valori Impuse",
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 4,
+          data: valoriImpuse,
+        },
+        {
+          label: "Valori Masurate Medii",
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 4,
+          data: valoriMasurateMedii,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+    
+
+
+  </script>
+</body>
+</html>
